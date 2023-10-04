@@ -1,18 +1,26 @@
 import { StyleSheet, View } from "react-native";
-import { PaperProvider, Text, Button } from "react-native-paper";
+import { PaperProvider, Text, TextInput, Button } from "react-native-paper";
 import { Link } from "expo-router";
 import React from "react";
 
-export default function index() {
+export default function emailLogin() {
+  const [text, setText] = React.useState("");
   return (
     <PaperProvider>
       <View style={styles.container}>
         <Text variant="displayLarge" style={styles.lblText}>
-          Grocery Genie
+          Sign In
         </Text>
-        <Text variant="displaySmall" style={styles.lblText}>
-          The only kitchen logger app you need
-        </Text>
+        <TextInput
+          label="Email"
+          value={text}
+          onChangeText={(text) => setText(text)}
+        />
+        <TextInput
+          label="Password"
+          value={text}
+          onChangeText={(text) => setText(text)}
+        />
         <Link href="/login/emailLogin">
           <Button
             mode="contained"
@@ -23,29 +31,8 @@ export default function index() {
             Sign in with Email
           </Button>
         </Link>
-        <View style={styles.btnContainer}>
-          <Link href="/login/emailLogin">
-            <Button
-              icon="google"
-              mode="contained"
-              buttonColor="#1a191e"
-              textColor="white"
-              style={{ marginRight: 16 }}
-            >
-              Google
-            </Button>
-          </Link>
-          <Button
-            icon="apple"
-            mode="contained"
-            buttonColor="#1a191e"
-            textColor="white"
-          >
-            Apple ID
-          </Button>
-        </View>
         <Text variant="bodySmall" style={styles.smallText}>
-          The only kitchen logger app you need
+          Forgot your Password?
         </Text>
       </View>
     </PaperProvider>
