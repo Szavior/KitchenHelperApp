@@ -20,7 +20,17 @@ export default function index() {
             textColor="white"
             style={styles.emailBtn}
           >
-            Sign in with Email
+            Sign In with Email
+          </Button>
+        </Link>
+        <Link href="/login/createAccount" asChild>
+          <Button
+            mode="contained"
+            buttonColor="#8271a5"
+            textColor="white"
+            style={styles.emailBtn}
+          >
+            Sign Up
           </Button>
         </Link>
         <View style={styles.btnContainer}>
