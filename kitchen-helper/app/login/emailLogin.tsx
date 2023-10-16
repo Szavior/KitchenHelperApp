@@ -1,10 +1,20 @@
 import { StyleSheet, View } from "react-native";
 import { PaperProvider, Text, TextInput, Button } from "react-native-paper";
 import { Link } from "expo-router";
-import React from "react";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../firebaseConfig";
+import React, { useState } from "react";
 
 export default function emailLogin() {
-  const [text, setText] = React.useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const onHandleLogin = () => {
+    if (email !== "" && password !== "") {
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => console.log("Login success"))
+        .catch((err) => console.log(err));
+    }
+  };
   return (
     <PaperProvider>
       <View style={styles.container}>
@@ -13,13 +23,13 @@ export default function emailLogin() {
         </Text>
         <TextInput
           label="Email"
-          value={text}
-          onChangeText={(text) => setText(text)}
+          value={email}
+          onChangeText={(email) => setEmail(email)}
         />
         <TextInput
           label="Password"
-          value={text}
-          onChangeText={(text) => setText(text)}
+          value={password}
+          onChangeText={(password) => setPassword(password)}
         />
         <Link href="/(loggedIn)/dashboard" asChild>
           <Button
@@ -27,6 +37,7 @@ export default function emailLogin() {
             buttonColor="#8271a5"
             textColor="white"
             style={styles.emailBtn}
+            onPress={onHandleLogin}
           >
             Sign in with Email
           </Button>

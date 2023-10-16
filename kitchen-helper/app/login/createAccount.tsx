@@ -2,6 +2,7 @@ import { StyleSheet, View, Alert } from "react-native";
 import { PaperProvider, Text, TextInput, Button } from "react-native-paper";
 import { Link } from "expo-router";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 import { auth, database } from "../../firebaseConfig";
 import React, { useState } from "react";
 
@@ -18,15 +19,15 @@ export default function createAccount() {
         password
       );
       const user = userCredential.user;
-      //   const userRef = doc(database, "users", user.uid);
-      //   await setDoc(userRef, {
-      //     displayName: name,
-      //     email: email,
-      //     uid: user.uid,
-      //     phoneNumber: "",
-      //   });
+      const userRef = doc(database, "users", user.uid);
+      await setDoc(userRef, {
+        displayName: name,
+        email: email,
+        uid: user.uid,
+        phoneNumber: "",
+      });
     } catch (error) {
-      console.log();
+      console.log(error);
     }
   };
 
