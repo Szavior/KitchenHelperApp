@@ -3,24 +3,14 @@ import { PaperProvider, Text, TextInput, Button } from "react-native-paper";
 import { Link } from "expo-router";
 import React from "react";
 
-export default function emailLogin() {
+export default function inventory() {
   const [text, setText] = React.useState("");
   return (
     <PaperProvider>
       <View style={styles.container}>
         <Text variant="displayLarge" style={styles.lblText}>
-          Sign In
+          Inventory
         </Text>
-        <TextInput
-          label="Email"
-          value={text}
-          onChangeText={(text) => setText(text)}
-        />
-        <TextInput
-          label="Password"
-          value={text}
-          onChangeText={(text) => setText(text)}
-        />
         <Link href="/(loggedIn)/dashboard" asChild>
           <Button
             mode="contained"
@@ -28,12 +18,9 @@ export default function emailLogin() {
             textColor="white"
             style={styles.emailBtn}
           >
-            Sign in with Email
+            Back to Dashboard
           </Button>
         </Link>
-        <Text variant="bodySmall" style={styles.smallText}>
-          Forgot your Password?
-        </Text>
       </View>
     </PaperProvider>
   );

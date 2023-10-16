@@ -1,52 +1,56 @@
 import { StyleSheet, View } from "react-native";
-import { PaperProvider, Text, Button } from "react-native-paper";
+import { PaperProvider, Text, TextInput, Button } from "react-native-paper";
 import { Link } from "expo-router";
 import React from "react";
 
-export default function index() {
+export default function dashboard() {
+  const [text, setText] = React.useState("");
   return (
     <PaperProvider>
       <View style={styles.container}>
         <Text variant="displayLarge" style={styles.lblText}>
-          Grocery Genie
+          Dashboard
         </Text>
-        <Text variant="displaySmall" style={styles.lblText}>
-          The only kitchen logger app you need
-        </Text>
-        <Link href="/login/emailLogin" asChild>
+        <Link href="/(loggedIn)/inventory" asChild>
           <Button
             mode="contained"
             buttonColor="#8271a5"
             textColor="white"
             style={styles.emailBtn}
           >
-            Sign in with Email
+            Inventory
           </Button>
         </Link>
-        <View style={styles.btnContainer}>
-          <Link href="/login/emailLogin" asChild>
-            <Button
-              icon="google"
-              mode="contained"
-              buttonColor="#1a191e"
-              textColor="white"
-              style={{ marginRight: 16 }}
-            >
-              Google
-            </Button>
-          </Link>
+        <Link href="/(loggedIn)/recipeRecommender" asChild>
           <Button
-            icon="apple"
             mode="contained"
-            buttonColor="#1a191e"
+            buttonColor="#8271a5"
             textColor="white"
+            style={styles.emailBtn}
           >
-            Apple ID
+            Recipe Recommender
           </Button>
-        </View>
-        <Text variant="bodySmall" style={styles.smallText}>
-          The only kitchen logger app you need
-        </Text>
+        </Link>
+        <Link href="/(loggedIn)/groceryListMaker" asChild>
+          <Button
+            mode="contained"
+            buttonColor="#8271a5"
+            textColor="white"
+            style={styles.emailBtn}
+          >
+            Grocery List Maker
+          </Button>
+        </Link>
+        <Link href="/" asChild>
+          <Button
+            mode="contained"
+            buttonColor="#8271a5"
+            textColor="white"
+            style={styles.emailBtn}
+          >
+            Logout
+          </Button>
+        </Link>
       </View>
     </PaperProvider>
   );
