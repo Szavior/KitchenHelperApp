@@ -1,26 +1,47 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Alert } from "react-native";
 import { PaperProvider, Text, TextInput, Button } from "react-native-paper";
 import { Link } from "expo-router";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebaseConfig";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+import { auth, database } from "../../firebaseConfig";
 import React, { useState } from "react";
 
-export default function emailLogin() {
+export default function createAccount() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const onHandleLogin = () => {
-    if (email !== "" && password !== "") {
-      signInWithEmailAndPassword(auth, email, password)
-        .then(() => console.log("Login success"))
-        .catch((err) => console.log(err));
+
+  const onHandleSignup = async () => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+      const userRef = doc(database, "users", user.uid);
+      await setDoc(userRef, {
+        displayName: name,
+        email: email,
+        uid: user.uid,
+        phoneNumber: "",
+      });
+    } catch (error) {
+      console.log(error);
     }
   };
+
   return (
     <PaperProvider>
       <View style={styles.container}>
         <Text variant="displayLarge" style={styles.lblText}>
-          Sign In
+          Sign Up
         </Text>
+        <TextInput
+          label="Name"
+          value={name}
+          onChangeText={(name) => setName(name)}
+        />
         <TextInput
           label="Email"
           value={email}
@@ -37,9 +58,9 @@ export default function emailLogin() {
             buttonColor="#8271a5"
             textColor="white"
             style={styles.emailBtn}
-            onPress={onHandleLogin}
+            onPress={onHandleSignup}
           >
-            Sign in with Email
+            Sign Up with Email
           </Button>
         </Link>
         <Text variant="bodySmall" style={styles.smallText}>
