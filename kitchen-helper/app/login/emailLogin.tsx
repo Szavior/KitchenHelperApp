@@ -31,7 +31,7 @@ export default function emailLogin() {
           value={password}
           onChangeText={(password) => setPassword(password)}
         />
-        <Link href="/(loggedIn)/dashboard" asChild>
+        <Link href="/(loggedIn)/Home" asChild>
           <Button
             mode="contained"
             buttonColor="#8271a5"

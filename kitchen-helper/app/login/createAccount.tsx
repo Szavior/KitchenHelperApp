@@ -25,6 +25,7 @@ export default function createAccount() {
         email: email,
         uid: user.uid,
         phoneNumber: "",
+        familyID: "",
       });
     } catch (error) {
       console.log(error);
@@ -52,7 +53,7 @@ export default function createAccount() {
           value={password}
           onChangeText={(password) => setPassword(password)}
         />
-        <Link href="/(loggedIn)/dashboard" asChild>
+        <Link href="/(loggedIn)/Home" asChild>
           <Button
             mode="contained"
             buttonColor="#8271a5"

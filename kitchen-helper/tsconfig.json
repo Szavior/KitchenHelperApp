@@ -7,6 +7,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".expo/types/**/*.ts",
-    "expo-env.d.ts"
+    "expo-env.d.ts",
+    "app/(loggedIn)/Dashboard.tsx",
+    "components/Footer.jsx"
   ]
 }
