@@ -11,7 +11,7 @@ export default function recipeRecommender() {
         <Text variant="displayLarge" style={styles.lblText}>
           Recipe Recommender
         </Text>
-        <Link href="/(loggedIn)/dashboard" asChild>
+        <Link href="/(loggedIn)/Dashboard" asChild>
           <Button
             mode="contained"
             buttonColor="#8271a5"

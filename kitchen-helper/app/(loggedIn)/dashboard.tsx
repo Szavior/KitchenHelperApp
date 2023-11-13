@@ -11,7 +11,7 @@ export default function dashboard() {
         <Text variant="displayLarge" style={styles.lblText}>
           Dashboard
         </Text>
-        <Link href="/(loggedIn)/inventory" asChild>
+        <Link href="/(loggedIn)/Inventory" asChild>
           <Button
             mode="contained"
             buttonColor="#8271a5"
@@ -21,7 +21,7 @@ export default function dashboard() {
             Inventory
           </Button>
         </Link>
-        <Link href="/(loggedIn)/recipeRecommender" asChild>
+        <Link href="/(loggedIn)/RecipeRecommender" asChild>
           <Button
             mode="contained"
             buttonColor="#8271a5"
@@ -31,7 +31,7 @@ export default function dashboard() {
             Recipe Recommender
           </Button>
         </Link>
-        <Link href="/(loggedIn)/groceryListMaker" asChild>
+        <Link href="/(loggedIn)/GroceryListMaker" asChild>
           <Button
             mode="contained"
             buttonColor="#8271a5"

@@ -11,7 +11,7 @@ export default function groceryListMaker() {
         <Text variant="displayLarge" style={styles.lblText}>
           Grocery List Maker
         </Text>
-        <Link href="/(loggedIn)/dashboard" asChild>
+        <Link href="/(loggedIn)/Dashboard" asChild>
           <Button
             mode="contained"
             buttonColor="#8271a5"
