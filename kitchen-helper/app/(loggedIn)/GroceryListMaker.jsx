@@ -35,52 +35,23 @@ export default function GroceryListMaker() {
   const renderItem = ({ item }) => (
     <List.Item
       title={item.name}
-      titleStyle={{ color: "black" }}
-      style={
-        item.isChecked
-          ? { ...styles.checkedItem, backgroundColor: "green" }
-          : styles.uncheckedItem
-      }
+      titleStyle={{ color: "black" }} // Set text color to black
+      style={item.isChecked ? styles.checkedItem : styles.uncheckedItem} // Apply different styles for checked and unchecked items
       right={() => (
-        <View style={styles.checkboxContainer}>
-          <Button
-            icon="plus"
-            mode="contained"
-            onPress={() => handlePlusClick(item.id)}
-            style={styles.plusButton}
-            labelStyle={styles.buttonLabel}
-          />
-          <Button
-            icon="minus"
-            mode="contained"
-            onPress={() => handleMinusClick(item.id)}
-            style={styles.minusButton}
-            labelStyle={styles.buttonLabel}
-          />
-        </View>
+        <Checkbox
+          status={item.isChecked ? "checked" : "unchecked"}
+          onPress={() => handleCheckboxToggle(item.id)}
+        />
       )}
     />
   );
 
-  const handlePlusClick = (ingredientId) => {
-    // Implement logic for handling the plus button click
+  const handleCheckboxToggle = (ingredientId) => {
     // Update the isChecked status of the ingredient
     setIngredients((prevIngredients) =>
       prevIngredients.map((ingredient) =>
         ingredient.id === ingredientId
-          ? { ...ingredient, isChecked: true }
-          : ingredient
-      )
-    );
-  };
-
-  const handleMinusClick = (ingredientId) => {
-    // Implement logic for handling the minus button click
-    // Update the isChecked status of the ingredient
-    setIngredients((prevIngredients) =>
-      prevIngredients.map((ingredient) =>
-        ingredient.id === ingredientId
-          ? { ...ingredient, isChecked: false }
+          ? { ...ingredient, isChecked: !ingredient.isChecked }
           : ingredient
       )
     );
@@ -134,31 +105,5 @@ const styles = StyleSheet.create({
   },
   lblText: {
     color: "#8271a5",
-  },
-  checkboxContainer: {
-    flexDirection: "row",
-  },
-  buttonContainer: {
-    flexDirection: "row",
-  },
-  plusButton: {
-    marginRight: 8,
-    backgroundColor: "green", // Set background color for plus button
-    borderRadius: 50, // Make the button circular
-    width: 40, // Set a fixed width for the circular button
-    height: 40, // Set a fixed height for the circular button
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  minusButton: {
-    backgroundColor: "red", // Set background color for minus button
-    borderRadius: 50, // Make the button circular
-    width: 40, // Set a fixed width for the circular button
-    height: 40, // Set a fixed height for the circular button
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  buttonLabel: {
-    color: "white", // Set text color for the button label
   },
 });
