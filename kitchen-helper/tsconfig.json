@@ -8,7 +8,9 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts",
-    "app/(loggedIn)/Dashboard.tsx",
-    "components/Footer.jsx"
+    "app/(loggedIn)/Dashboard.jsx",
+    "components/Footer.jsx",
+    "app/(loggedIn)/Inventory.jsx",
+    "app/(loggedIn)/GroceryListMaker.jsx"
   ]
 }
