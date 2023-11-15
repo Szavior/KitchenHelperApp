@@ -7,6 +7,11 @@
     "**/*.ts",
     "**/*.tsx",
     ".expo/types/**/*.ts",
-    "expo-env.d.ts"
+    "expo-env.d.ts",
+    "app/(loggedIn)/Dashboard.jsx",
+    "components/Footer.jsx",
+    "app/(loggedIn)/Inventory.jsx",
+    "app/(loggedIn)/GroceryListMaker.jsx",
+    "app/(loggedIn)/RecipeRecommender.jsx"
   ]
 }
