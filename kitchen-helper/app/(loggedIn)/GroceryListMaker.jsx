@@ -61,6 +61,12 @@ export default function GroceryListMaker() {
     <PaperProvider>
       <Header title="Grocery List Maker" />
       <View style={styles.container}>
+        <TextInput
+            label="Search"
+            value={searchQuery}
+            onChangeText={handleSearch}
+            style={styles.searchBar}
+        />
         <FlatList
           data={ingredients}
           renderItem={renderItem}
