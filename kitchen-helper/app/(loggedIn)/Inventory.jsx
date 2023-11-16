@@ -12,14 +12,14 @@ import { Link } from "expo-router";
 import Header from "../../components/Header";
 
 const predefinedIngredients = [
-  { id: 1, name: "Milk", isChecked: false },
-  { id: 2, name: "Pop-Tarts", isChecked: false },
-  { id: 3, name: "Eggs", isChecked: false },
-  { id: 4, name: "Sausages", isChecked: false },
-  { id: 5, name: "Sub Rolls", isChecked: false },
-  { id: 6, name: "Cream", isChecked: false },
-  { id: 7, name: "Brown Sugar", isChecked: false },
-  { id: 8, name: "Shredded Cheese", isChecked: false },
+  { id: 1, name: "Milk", count: 1, isChecked: false },
+  { id: 2, name: "Pop-Tarts", count: 0, isChecked: false },
+  { id: 3, name: "Eggs", count: 12, isChecked: false },
+  { id: 4, name: "Sausages", count: 6, isChecked: false },
+  { id: 5, name: "Sub Rolls", count: 20, isChecked: false },
+  { id: 6, name: "Cream", count: 1, isChecked: false },
+  { id: 7, name: "Brown Sugar", count: 2, isChecked: false },
+  { id: 8, name: "Shredded Cheese", count: 4, isChecked: false },
 ];
 
 export default function Inventory() {
@@ -34,7 +34,7 @@ export default function Inventory() {
 
   const renderItem = ({ item }) => (
     <List.Item
-      title={item.name}
+      title={`${item.name} | ${item.count}` }
       titleStyle={{ color: "black" }}
       style={
         item.isChecked
