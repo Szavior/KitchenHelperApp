@@ -11,15 +11,15 @@ import {
 import { Link } from "expo-router";
 import Header from "../../components/Header";
 
-const predefinedIngredients = [
-  { id: 1, name: "Milk", count: 1, isChecked: false },
-  { id: 2, name: "Pop-Tarts", count: 0, isChecked: false },
-  { id: 3, name: "Eggs", count: 12, isChecked: false },
-  { id: 4, name: "Sausages", count: 6, isChecked: false },
-  { id: 5, name: "Sub Rolls", count: 20, isChecked: false },
-  { id: 6, name: "Cream", count: 1, isChecked: false },
-  { id: 7, name: "Brown Sugar", count: 2, isChecked: false },
-  { id: 8, name: "Shredded Cheese", count: 4, isChecked: false },
+predefinedIngredients = [
+  { id: 1, name: "Milk", count: 1 },
+  { id: 2, name: "Pop-Tarts", count: 0 },
+  { id: 3, name: "Eggs", count: 12 },
+  { id: 4, name: "Sausages", count: 6 },
+  { id: 5, name: "Sub Rolls", count: 20 },
+  { id: 6, name: "Cream", count: 1 },
+  { id: 7, name: "Brown Sugar", count: 2 },
+  { id: 8, name: "Shredded Cheese", count: 4 },
 ];
 
 export default function Inventory() {
@@ -36,24 +36,20 @@ export default function Inventory() {
     <List.Item
       title={`${item.name} | ${item.count}` }
       titleStyle={{ color: "black" }}
-      style={
-        item.isChecked
-          ? { ...styles.checkedItem, backgroundColor: "green" }
-          : styles.uncheckedItem
-      }
+      style={ styles.item }
       right={() => (
-        <View style={styles.checkboxContainer}>
+        <View style={styles.buttonContainer}>
           <Button
             icon="plus"
             mode="contained"
-            onPress={() => handlePlusClick(item.id)}
+            onPress={() => handlePlusClick(item)}
             style={styles.plusButton}
             labelStyle={styles.buttonLabel}
           />
           <Button
             icon="minus"
             mode="contained"
-            onPress={() => handleMinusClick(item.id)}
+            onPress={() => handleMinusClick(item)}
             style={styles.minusButton}
             labelStyle={styles.buttonLabel}
           />
@@ -62,26 +58,18 @@ export default function Inventory() {
     />
   );
 
-  const handlePlusClick = (ingredientId) => {
-    // Implement logic for handling the plus button click
-    // Update the isChecked status of the ingredient
-    setIngredients((prevIngredients) =>
-      prevIngredients.map((ingredient) =>
-        ingredient.id === ingredientId
-          ? { ...ingredient, isChecked: true }
-          : ingredient
+  const handlePlusClick = (item) => {
+    setIngredients(prevIngredients =>
+      prevIngredients.map(ingredient =>
+        ingredient.id === item.id ? { ...ingredient, count: item.count + 1 } : ingredient
       )
     );
   };
 
-  const handleMinusClick = (ingredientId) => {
-    // Implement logic for handling the minus button click
-    // Update the isChecked status of the ingredient
-    setIngredients((prevIngredients) =>
-      prevIngredients.map((ingredient) =>
-        ingredient.id === ingredientId
-          ? { ...ingredient, isChecked: false }
-          : ingredient
+  const handleMinusClick = (item) => {
+    setIngredients(prevIngredients =>
+      prevIngredients.map(ingredient =>
+        ingredient.id === item.id ? { ...ingredient, count: item.count - 1 } : ingredient
       )
     );
   };
@@ -123,26 +111,11 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
   },
-  checkedItem: {
-    borderColor: "green", // Add a green outline for checked items
-    borderWidth: 2,
-    borderRadius: 8,
-    marginVertical: 4,
-  },
-  uncheckedItem: {
+  item: {
     borderColor: "black", // Add a red outline for unchecked items
     borderWidth: 2,
     borderRadius: 8,
     marginVertical: 4,
-  },
-  emailBtn: {
-    marginTop: 16,
-  },
-  lblText: {
-    color: "#8271a5",
-  },
-  checkboxContainer: {
-    flexDirection: "row",
   },
   buttonContainer: {
     flexDirection: "row",
