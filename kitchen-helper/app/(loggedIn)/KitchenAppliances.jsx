@@ -1,17 +1,15 @@
 import React, { useState } from "react";
-import { StyleSheet, View, FlatList } from "react-native";
+import { StyleSheet, View, ScrollView } from "react-native";
 import {
   PaperProvider,
-  Text,
   TextInput,
-  Button,
   List,
   Checkbox,
 } from "react-native-paper";
 import { Link } from "expo-router";
 import Header from "../../components/Header";
 
-const defaultAppliances = [
+defaultAppliances = [
   { id: 1, name: "Oven", isChecked: true },
   { id: 2, name: "Air Frier", isChecked: false },
   { id: 3, name: "Frier", isChecked: false },
@@ -29,20 +27,6 @@ export default function KitchenAppliances() {
     // Update the ingredients list based on the search query
   };
 
-  const renderItem = ({ item }) => (
-    <List.Item
-      title={item.name}
-      titleStyle={{ color: "black" }} // Set text color to black
-      style={item.isChecked ? styles.checkedAppliance : styles.uncheckedAppliance} // Apply different styles for checked and unchecked appliances
-      right={() => (
-        <Checkbox
-          status={item.isChecked ? "checked" : "unchecked"}
-          onPress={() => handleCheckboxToggle(item.id)}
-        />
-      )}
-    />
-  );
-
   const handleCheckboxToggle = (appliancesId) => {
     // Update the isChecked status of the appliance
     setAppliances((prevAppliances) =>
@@ -55,23 +39,16 @@ export default function KitchenAppliances() {
   };
 
   return (
-    <PaperProvider>
-      <Header title="Manage Kitchen Appliances" />
-      <View style={styles.container}>
-        <TextInput
-            label="Search"
-            value={searchQuery}
-            onChangeText={handleSearch}
-            style={styles.searchBar}
+    <ScrollView style={styles.newContainer}>
+      {appliances.map((item) => 
+        <Checkbox.Item
+          key={ item.id }
+          label={ item.name }
+          status={ item.isChecked ? 'checked' : 'unchecked'}
+          onPress={() => handleCheckboxToggle(item.id)}
         />
-        <FlatList
-          data={appliances}
-          renderItem={renderItem}
-          keyExtractor={(appliance) => appliance.id.toString()}
-          style={styles.list}
-        />
-      </View>
-    </PaperProvider>
+      )} 
+    </ScrollView>
   );
 }
 
@@ -80,6 +57,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "#d5e3fe",
+    padding: 16,
+  },
+  newContainer: {
+    flex: 1,
     backgroundColor: "#d5e3fe",
     padding: 16,
   },
