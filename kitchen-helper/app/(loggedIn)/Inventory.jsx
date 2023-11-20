@@ -11,15 +11,15 @@ import {
 import { Link } from "expo-router";
 import Header from "../../components/Header";
 
-const predefinedIngredients = [
-  { id: 1, name: "Milk", isChecked: false },
-  { id: 2, name: "Pop-Tarts", isChecked: false },
-  { id: 3, name: "Eggs", isChecked: false },
-  { id: 4, name: "Sausages", isChecked: false },
-  { id: 5, name: "Sub Rolls", isChecked: false },
-  { id: 6, name: "Cream", isChecked: false },
-  { id: 7, name: "Brown Sugar", isChecked: false },
-  { id: 8, name: "Shredded Cheese", isChecked: false },
+predefinedIngredients = [
+  { id: 1, name: "Milk", count: 1 },
+  { id: 2, name: "Pop-Tarts", count: 0 },
+  { id: 3, name: "Eggs", count: 12 },
+  { id: 4, name: "Sausages", count: 6 },
+  { id: 5, name: "Sub Rolls", count: 20 },
+  { id: 6, name: "Cream", count: 1 },
+  { id: 7, name: "Brown Sugar", count: 2 },
+  { id: 8, name: "Shredded Cheese", count: 4 },
 ];
 
 export default function Inventory() {
@@ -34,25 +34,42 @@ export default function Inventory() {
 
   const renderItem = ({ item }) => (
     <List.Item
-      title={item.name}
-      titleStyle={{ color: "black" }} // Set text color to black
-      style={item.isChecked ? styles.checkedItem : styles.uncheckedItem} // Apply different styles for checked and unchecked items
+      title={`${item.name} | ${item.count}` }
+      titleStyle={{ color: "black" }}
+      style={ styles.item }
       right={() => (
-        <Checkbox
-          status={item.isChecked ? "checked" : "unchecked"}
-          onPress={() => handleCheckboxToggle(item.id)}
-        />
+        <View style={styles.buttonContainer}>
+          <Button
+            icon="plus"
+            mode="contained"
+            onPress={() => handlePlusClick(item)}
+            style={styles.plusButton}
+            labelStyle={styles.buttonLabel}
+          />
+          <Button
+            icon="minus"
+            mode="contained"
+            onPress={() => handleMinusClick(item)}
+            style={styles.minusButton}
+            labelStyle={styles.buttonLabel}
+          />
+        </View>
       )}
     />
   );
 
-  const handleCheckboxToggle = (ingredientId) => {
-    // Update the isChecked status of the ingredient
-    setIngredients((prevIngredients) =>
-      prevIngredients.map((ingredient) =>
-        ingredient.id === ingredientId
-          ? { ...ingredient, isChecked: !ingredient.isChecked }
-          : ingredient
+  const handlePlusClick = (item) => {
+    setIngredients(prevIngredients =>
+      prevIngredients.map(ingredient =>
+        ingredient.id === item.id ? { ...ingredient, count: item.count + 1 } : ingredient
+      )
+    );
+  };
+
+  const handleMinusClick = (item) => {
+    setIngredients(prevIngredients =>
+      prevIngredients.map(ingredient =>
+        ingredient.id === item.id ? { ...ingredient, count: item.count - 1 } : ingredient
       )
     );
   };
@@ -94,22 +111,33 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
   },
-  checkedItem: {
-    borderColor: "green", // Add a green outline for checked items
-    borderWidth: 2,
-    borderRadius: 8,
-    marginVertical: 4,
-  },
-  uncheckedItem: {
+  item: {
     borderColor: "black", // Add a red outline for unchecked items
     borderWidth: 2,
     borderRadius: 8,
     marginVertical: 4,
   },
-  emailBtn: {
-    marginTop: 16,
+  buttonContainer: {
+    flexDirection: "row",
   },
-  lblText: {
-    color: "#8271a5",
+  plusButton: {
+    marginRight: 8,
+    backgroundColor: "green", // Set background color for plus button
+    borderRadius: 50, // Make the button circular
+    width: 40, // Set a fixed width for the circular button
+    height: 40, // Set a fixed height for the circular button
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  minusButton: {
+    backgroundColor: "red", // Set background color for minus button
+    borderRadius: 50, // Make the button circular
+    width: 40, // Set a fixed width for the circular button
+    height: 40, // Set a fixed height for the circular button
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buttonLabel: {
+    color: "white", // Set text color for the button label
   },
 });
