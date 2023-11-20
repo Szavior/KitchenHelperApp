@@ -5,11 +5,12 @@ import {
   TextInput,
   List,
   Checkbox,
+  Searchbar,
 } from "react-native-paper";
 import { Link } from "expo-router";
 import Header from "../../components/Header";
 
-defaultAppliances = [
+const defaultAppliances = [
   { id: 1, name: "Oven", isChecked: true },
   { id: 2, name: "Air Frier", isChecked: false },
   { id: 3, name: "Frier", isChecked: false },
@@ -39,7 +40,13 @@ export default function KitchenAppliances() {
   };
 
   return (
-    <ScrollView style={styles.newContainer}>
+    <ScrollView style={styles.container}>
+      <Searchbar
+        placeholder="Search"
+        onChangeText={(query) => setSearchQuery(query)}
+        value={searchQuery}
+        style={styles.searchBar}
+      />
       {appliances.map((item) => 
         <Checkbox.Item
           key={ item.id }
@@ -55,19 +62,11 @@ export default function KitchenAppliances() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#d5e3fe",
-    padding: 16,
-  },
-  newContainer: {
-    flex: 1,
     backgroundColor: "#d5e3fe",
     padding: 16,
   },
   searchBar: {
-    width: "100%",
-    marginVertical: 16,
+    margin: 4,
   },
   list: {
     flex: 1,
