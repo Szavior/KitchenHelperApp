@@ -76,7 +76,7 @@ export default function Inventory() {
 
   return (
     <PaperProvider>
-      <Header title="Fridge" />
+      <Header title="Manage Inventory" />
       <View style={styles.container}>
         <TextInput
           label="Search"
