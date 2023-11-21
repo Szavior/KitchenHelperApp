@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { StyleSheet, View, ScrollView } from "react-native";
 import {
   PaperProvider,
-  TextInput,
-  List,
   Checkbox,
   Searchbar,
 } from "react-native-paper";

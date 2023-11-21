@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import { StyleSheet, View, FlatList } from "react-native";
+import { StyleSheet, View, ScrollView } from "react-native";
 import {
   PaperProvider,
-  Text,
-  TextInput,
-  Button,
   List,
-  Checkbox,
+  Searchbar,
+  IconButton,
+  TouchableRipple,
 } from "react-native-paper";
 import { Link } from "expo-router";
 import Header from "../../components/Header";
@@ -32,32 +31,6 @@ export default function Inventory() {
     // Update the ingredients list based on the search query
   };
 
-  const renderItem = ({ item }) => (
-    <List.Item
-      title={`${item.name} | ${item.count}` }
-      titleStyle={{ color: "black" }}
-      style={ styles.item }
-      right={() => (
-        <View style={styles.buttonContainer}>
-          <Button
-            icon="plus"
-            mode="contained"
-            onPress={() => handlePlusClick(item)}
-            style={styles.plusButton}
-            labelStyle={styles.buttonLabel}
-          />
-          <Button
-            icon="minus"
-            mode="contained"
-            onPress={() => handleMinusClick(item)}
-            style={styles.minusButton}
-            labelStyle={styles.buttonLabel}
-          />
-        </View>
-      )}
-    />
-  );
-
   const handlePlusClick = (item) => {
     setIngredients(prevIngredients =>
       prevIngredients.map(ingredient =>
@@ -77,67 +50,66 @@ export default function Inventory() {
   return (
     <PaperProvider>
       <Header title="Manage Inventory" />
-      <View style={styles.container}>
-        <TextInput
-          label="Search"
+      <View style={styles.main}>
+        <Searchbar
+          placeholder="Search"
+          onChangeText={(query) => setSearchQuery(query)}
           value={searchQuery}
-          onChangeText={handleSearch}
           style={styles.searchBar}
         />
-        <FlatList
-          data={ingredients}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id.toString()}
-          style={styles.list}
-        />
+        <ScrollView style={styles.list}>
+          {ingredients.map((item) => 
+            <TouchableRipple key={item.id}>
+              <List.Item
+                title={`${item.name} | ${item.count}`}
+                right={props =>
+                  <View style={styles.buttonContainer}>
+                    <IconButton {...props} 
+                      icon="plus"
+                      style={styles.plus}
+                      mode="contained" 
+                      size={24}
+                      onPress={() => handlePlusClick(item)}
+                    />
+                    <IconButton {...props} 
+                      icon="minus"
+                      style={styles.minus}
+                      mode="contained"
+                      size={24}
+                      onPress={() => handleMinusClick(item)}
+                    />
+                  </View>
+                }
+              />
+            </TouchableRipple>
+          )}
+        </ScrollView>
       </View>
     </PaperProvider>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  main: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
     backgroundColor: "#d5e3fe",
     padding: 16,
   },
   searchBar: {
-    width: "100%",
-    marginVertical: 16,
+    margin: 4,
+    padding: 16,
   },
   list: {
     flex: 1,
-    width: "100%",
-  },
-  item: {
-    borderColor: "black", // Add a red outline for unchecked items
-    borderWidth: 2,
-    borderRadius: 8,
-    marginVertical: 4,
+    padding: 16
   },
   buttonContainer: {
     flexDirection: "row",
   },
-  plusButton: {
-    marginRight: 8,
-    backgroundColor: "green", // Set background color for plus button
-    borderRadius: 50, // Make the button circular
-    width: 40, // Set a fixed width for the circular button
-    height: 40, // Set a fixed height for the circular button
-    justifyContent: "center",
-    alignItems: "center",
+  plus: {
+    backgroundColor: "green"
   },
-  minusButton: {
-    backgroundColor: "red", // Set background color for minus button
-    borderRadius: 50, // Make the button circular
-    width: 40, // Set a fixed width for the circular button
-    height: 40, // Set a fixed height for the circular button
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  buttonLabel: {
-    color: "white", // Set text color for the button label
-  },
+  minus: {
+    backgroundColor: "red"
+  }
 });
