@@ -56,24 +56,27 @@ export default function KitchenAppliances() {
   };
 
   return (
-    <PaperProvider style={styles.main}>
+    <PaperProvider>
       <Header title="Manage Kitchen Appliances" />
-      <Searchbar
-        placeholder="Search"
-        onChangeText={(query) => setSearchQuery(query)}
-        value={searchQuery}
-        style={styles.searchBar}
-      />
-      <ScrollView style={styles.list}>
-        {appliances.map((item) => 
-          <Checkbox.Item
-            key={item.id}
-            label={item.name}
-            status={item.isChecked ? 'checked' : 'unchecked'}
-            onPress={() => handleCheckboxToggle(item.id)}
-          />
-        )}
-      </ScrollView>
+      <View style={styles.main}>
+        <Searchbar
+          placeholder="Search"
+          onChangeText={(query) => setSearchQuery(query)}
+          value={searchQuery}
+          style={styles.searchBar}
+        />
+        <ScrollView style={styles.list}>
+          {appliances.map((item) => 
+            <Checkbox.Item
+              style={styles.item}
+              key={item.id}
+              label={item.name}
+              status={item.isChecked ? 'checked' : 'unchecked'}
+              onPress={() => handleCheckboxToggle(item.id)}
+            />
+          )}
+        </ScrollView>
+      </View>
     </PaperProvider>
   );
 }
@@ -82,6 +85,7 @@ const styles = StyleSheet.create({
   main: {
     flex: 1,
     backgroundColor: "#d5e3fe",
+    padding: 16,
   },
   list: {
     flex: 1,
