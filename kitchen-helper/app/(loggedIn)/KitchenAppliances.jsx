@@ -12,10 +12,26 @@ import Header from "../../components/Header";
 
 const defaultAppliances = [
   { id: 1, name: "Oven", isChecked: true },
-  { id: 2, name: "Air Frier", isChecked: false },
-  { id: 3, name: "Frier", isChecked: false },
-  { id: 4, name: "Microwave", isChecked: true },
-  { id: 5, name: "Blender", isChecked: false },
+  { id: 2, name: "Stove", isChecked: true },
+  { id: 3, name: "Air Frier", isChecked: false },
+  { id: 4, name: "Frier", isChecked: false },
+  { id: 5, name: "Microwave", isChecked: true },
+  { id: 6, name: "Toaster", isChecked: false },
+  { id: 7, name: "Blender", isChecked: false },
+  { id: 8, name: "Food Processor", isChecked: false },
+  { id: 9, name: "Slow Cooker", isChecked: false },
+  { id: 10, name: "Juicer", isChecked: false },
+  { id: 11, name: "Food Dehydrator", isChecked: false },
+  { id: 12, name: "Food Dehydrator", isChecked: false },
+  { id: 13, name: "Food Dehydrator", isChecked: false },
+  { id: 14, name: "Food Dehydrator", isChecked: false },
+  { id: 15, name: "Food Dehydrator", isChecked: false },
+  { id: 16, name: "Food Dehydrator", isChecked: false },
+  { id: 17, name: "Food Dehydrator", isChecked: false },
+  { id: 18, name: "Food Dehydrator", isChecked: false },
+  { id: 19, name: "Food Dehydrator", isChecked: false },
+  { id: 20, name: "Food Dehydrator", isChecked: false },
+  { id: 21, name: "Food Dehydrator", isChecked: false },
 ];
 
 export default function KitchenAppliances() {
@@ -40,48 +56,39 @@ export default function KitchenAppliances() {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <PaperProvider style={styles.main}>
+      <Header title="Manage Kitchen Appliances" />
       <Searchbar
         placeholder="Search"
         onChangeText={(query) => setSearchQuery(query)}
         value={searchQuery}
         style={styles.searchBar}
       />
-      {appliances.map((item) => 
-        <Checkbox.Item
-          key={ item.id }
-          label={ item.name }
-          status={ item.isChecked ? 'checked' : 'unchecked'}
-          onPress={() => handleCheckboxToggle(item.id)}
-        />
-      )} 
-    </ScrollView>
+      <ScrollView style={styles.list}>
+        {appliances.map((item) => 
+          <Checkbox.Item
+            key={item.id}
+            label={item.name}
+            status={item.isChecked ? 'checked' : 'unchecked'}
+            onPress={() => handleCheckboxToggle(item.id)}
+          />
+        )}
+      </ScrollView>
+    </PaperProvider>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  main: {
     flex: 1,
     backgroundColor: "#d5e3fe",
+  },
+  list: {
+    flex: 1,
     padding: 16,
   },
   searchBar: {
     margin: 4,
-  },
-  list: {
-    flex: 1,
-    width: "100%",
-  },
-  checkedAppliance: {
-    borderColor: "green", // Add a green outline for checked items
-    borderWidth: 2,
-    borderRadius: 8,
-    marginVertical: 4,
-  },
-  uncheckedAppliance: {
-    borderColor: "black", // Add a red outline for unchecked items
-    borderWidth: 2,
-    borderRadius: 8,
-    marginVertical: 4,
+    padding: 16,
   },
 });
