@@ -1,76 +1,56 @@
 import React, { useState } from "react";
-import { StyleSheet, View, FlatList } from "react-native";
-import {
-  PaperProvider,
-  Text,
-  TextInput,
-  Button,
-  List,
-  Checkbox,
-} from "react-native-paper";
-import { Link } from "expo-router";
+import { StyleSheet, View, Text, ScrollView } from "react-native";
+import { PaperProvider, TextInput } from "react-native-paper";
 import Header from "../../components/Header";
+import { Checkbox } from "react-native-paper";
 
-predefinedIngredients = [
-  { id: 1, name: "Milk", count: 1 },
-  { id: 2, name: "Pop-Tarts", count: 0 },
-  { id: 3, name: "Eggs", count: 12 },
-  { id: 4, name: "Sausages", count: 6 },
-  { id: 5, name: "Sub Rolls", count: 20 },
-  { id: 6, name: "Cream", count: 1 },
-  { id: 7, name: "Brown Sugar", count: 2 },
-  { id: 8, name: "Shredded Cheese", count: 4 },
+const remainingIngredients = [
+  { id: 1, name: "Milk", remaining: 1, isChecked:false },
+  { id: 2, name: "Pop-Tarts", remaining: 0, isChecked:false },
+  { id: 3, name: "Eggs", remaining: 12, isChecked:false },
+  { id: 4, name: "Sausages", remaining: 6, isChecked:false },
+  { id: 5, name: "Sub Rolls", remaining: 7, isChecked:false },
+  { id: 6, name: "Cream", remaining: 1, isChecked:false },
+  { id: 7, name: "Brown Sugar", remaining: 2, isChecked:false },
+  { id: 8, name: "Shredded Cheese", remaining: 4 , isChecked:false},
 ];
 
 export default function Inventory() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [ingredients, setIngredients] = useState(predefinedIngredients);
+  const tableHead = ["Item", "Remaining", "Add to grocery list"];
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredData, setFilteredData] = useState(remainingIngredients);
+  const [list, setList] = useState([]); 
 
+  // handle search
   const handleSearch = (query) => {
     setSearchQuery(query);
-    // Implement your search logic here
-    // Update the ingredients list based on the search query
+    if (query) {
+      const filteredItems = remainingIngredients.filter((item) =>
+        Object.values(item).some(
+          (value) =>
+            typeof value === 'string' &&-
+            value.toLowerCase().includes(query.toLowerCase())
+        )
+      );
+      setFilteredData(filteredItems);
+    } else {
+      setFilteredData(remainingIngredients);
+    }
   };
 
-  const renderItem = ({ item }) => (
-    <List.Item
-      title={`${item.name} | ${item.count}` }
-      titleStyle={{ color: "black" }}
-      style={ styles.item }
-      right={() => (
-        <View style={styles.buttonContainer}>
-          <Button
-            icon="plus"
-            mode="contained"
-            onPress={() => handlePlusClick(item)}
-            style={styles.plusButton}
-            labelStyle={styles.buttonLabel}
-          />
-          <Button
-            icon="minus"
-            mode="contained"
-            onPress={() => handleMinusClick(item)}
-            style={styles.minusButton}
-            labelStyle={styles.buttonLabel}
-          />
-        </View>
-      )}
-    />
-  );
-
-  const handlePlusClick = (item) => {
-    setIngredients(prevIngredients =>
-      prevIngredients.map(ingredient =>
-        ingredient.id === item.id ? { ...ingredient, count: item.count + 1 } : ingredient
+  const handleCheckboxToggle = (itemId) => {
+    setFilteredData((prevData) =>
+      prevData.map((item) =>
+        item.id === itemId
+          ? { ...item, isChecked: !item.isChecked }
+          : item
       )
     );
-  };
 
-  const handleMinusClick = (item) => {
-    setIngredients(prevIngredients =>
-      prevIngredients.map(ingredient =>
-        ingredient.id === item.id ? { ...ingredient, count: item.count - 1 } : ingredient
-      )
+    setList((prevList) =>
+      prevList.some((listItem) => listItem.id === itemId)
+        ? prevList.filter((listItem) => listItem.id !== itemId)
+        : [...prevList, { ...filteredData.find((item) => item.id === itemId) }]
     );
   };
 
@@ -84,16 +64,48 @@ export default function Inventory() {
           onChangeText={handleSearch}
           style={styles.searchBar}
         />
-        <FlatList
-          data={ingredients}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id.toString()}
-          style={styles.list}
-        />
+        <View style={styles.tableContainer}>
+          <View style={styles.tableHeader}>
+            {tableHead.map((header, index) => (
+              <View key={index} style={styles.headerItem}>
+                <Text style={styles.headerText}>{header}</Text>
+              </View>
+            ))}
+          </View>
+          <ScrollView style={styles.scrollContainer}>
+            {filteredData.map((item, index) => {
+              const isAdded = list.some((listItem) => listItem.id === item.id);
+              return (
+                <View
+                  key={index}
+                  style={index % 2 === 0 ? styles.rowEven : styles.rowOdd}
+                >
+                  <View style={styles.cell}>
+                    <Text style={[styles.text, { textAlign: 'left' }]}>{item.name}</Text>
+                  </View>
+                  <View style={styles.cell}>
+                    <Text style={[styles.text, { textAlign: 'left' }]}>{item.remaining}</Text>
+                  </View>
+                  <View style={[styles.cell, { alignItems: 'flex-start', flexDirection: 'row' }]}>
+                    <Checkbox
+                      status={item.isChecked ? 'checked' : 'unchecked'}
+                      onPress={() => handleCheckboxToggle(item.id)}
+                      color="#8271a5"
+                    />
+                    <Text style={{ marginLeft: 4, alignSelf: 'center' }}>
+                      {isAdded ? 'Added' : 'Not Added'}
+                    </Text>
+                  </View>
+                </View>
+              );
+            })}
+          </ScrollView>
+        </View>
       </View>
     </PaperProvider>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -101,43 +113,56 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#d5e3fe",
-    padding: 16,
+    padding: 20,
   },
   searchBar: {
     width: "100%",
     marginVertical: 16,
   },
-  list: {
-    flex: 1,
+  tableContainer: {
     width: "100%",
+    alignSelf: "center",
+    marginVertical: 16,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    overflow: "hidden",
   },
-  item: {
-    borderColor: "black", // Add a red outline for unchecked items
-    borderWidth: 2,
-    borderRadius: 8,
-    marginVertical: 4,
+  tableHeader: {
+    flexDirection: "row",
+    backgroundColor: "#f1f8ff",
+    borderBottomWidth: 1,
+    borderColor: "#ccc",
+    textAlign: "left",
   },
-  buttonContainer: {
+  headerItem: {
+    flex: 1,
+    padding: 10,
+    alignItems: "flex-start", // Adjust alignment for the header items
+  },
+  headerText: {
+    fontWeight: "bold",
+    color: "#8271a5",
+    textAlign: "left", // Ensure left alignment for the header text
+  },
+  scrollContainer: {
+    maxHeight: 400, // Set max height for scroll
+  },
+  rowEven: {
+    backgroundColor: "#edf3fc",
     flexDirection: "row",
   },
-  plusButton: {
-    marginRight: 8,
-    backgroundColor: "green", // Set background color for plus button
-    borderRadius: 50, // Make the button circular
-    width: 40, // Set a fixed width for the circular button
-    height: 40, // Set a fixed height for the circular button
-    justifyContent: "center",
-    alignItems: "center",
+  rowOdd: {
+    backgroundColor: "#ffffff",
+    flexDirection: "row",
   },
-  minusButton: {
-    backgroundColor: "red", // Set background color for minus button
-    borderRadius: 50, // Make the button circular
-    width: 40, // Set a fixed width for the circular button
-    height: 40, // Set a fixed height for the circular button
-    justifyContent: "center",
-    alignItems: "center",
+  cell: {
+    flex: 1,
+    padding: 10,
+    borderBottomWidth: 1,
+    borderColor: "#ccc",
   },
-  buttonLabel: {
-    color: "white", // Set text color for the button label
+  text: {
+    color: "#8271a5",
   },
 });
