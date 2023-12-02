@@ -2,10 +2,14 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, View, ScrollView } from "react-native";
 import {
   PaperProvider,
+  Provider,
   List,
   Searchbar,
   IconButton,
   TouchableRipple,
+  FAB,
+  Portal,
+  useTheme
 } from "react-native-paper";
 import { Link } from "expo-router";
 import { doc, getDoc, setDoc } from "firebase/firestore";
@@ -32,6 +36,8 @@ export default function Inventory() {
 
     fetchData();
   }, []); // Run the effect only once, when the component mounts
+
+  const fabOpen = false;
 
   async function getIngredients(householdId: string): Promise<Ingredient[] | undefined> {
     const householdRef = doc(database, "households", householdId);
@@ -63,6 +69,21 @@ export default function Inventory() {
     }
   }
 
+  async function saveIngredients(householdId: string) {
+    const ingredientsObject: { [key: string]: number } = ingredients.reduce(
+      (acc, curr) => {
+        acc[curr.name] = curr.count;
+        return acc;
+      },
+      {} as { [key: string]: number } // Add this type assertion
+    );
+  
+    // Add a new document in the "households" collection
+    await setDoc(doc(database, "households", householdId), {
+      inventory: ingredientsObject,
+    });
+  }
+
   const handleSearch = (query: string) => {
     setSearchQuery(query);
     // Implement your search logic here
@@ -86,7 +107,7 @@ export default function Inventory() {
   };
 
   return (
-    <View>
+    <Provider theme={useTheme()}>
       <Header title="Manage Inventory" />
       <View style={styles.main}>
         <Searchbar
@@ -124,8 +145,22 @@ export default function Inventory() {
             </TouchableRipple>
           ))}
         </ScrollView>
+        <Portal>
+          <FAB.Group
+            open={fabOpen}
+            icon={'content-save'}
+            actions={[
+              { icon: 'plus', onPress: () => {} },
+              { icon: 'star', label: 'Star', onPress: () => {} },
+              { icon: 'email', label: 'Email', onPress: () => {} },
+            ]}
+            onStateChange={() => saveIngredients("CSoCdtJx3CA3XvzN0b5V")}
+            onPress={() => {}}
+            visible={true}
+          />
+        </Portal>
       </View>
-    </View>
+    </Provider>
   );
 }
 
@@ -151,5 +186,8 @@ const styles = StyleSheet.create({
   },
   minus: {
     backgroundColor: "red",
+  },
+  fab: {
+    margin: 8,
   },
 });
