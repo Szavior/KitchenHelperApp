@@ -4,6 +4,7 @@ import Dashboard from "../app/(loggedIn)/Dashboard";
 import GroceryListMaker from "../app/(loggedIn)/GroceryListMaker";
 import Inventory from "../app/(loggedIn)/Inventory";
 import RecipeRecommender from "../app/(loggedIn)/RecipeRecommender";
+import KitchenAppliances from "../app/(loggedIn)/KitchenAppliances";
 
 const Footer = () => {
   const [index, setIndex] = React.useState(0);
@@ -22,7 +23,13 @@ const Footer = () => {
     },
     {
       key: "inventory",
-      title: "Fridge",
+      title: "Inventory",
+      focusedIcon: "food-apple",
+      unfocusedIcon: "food-apple-outline",
+    },
+    {
+      key: "appliances",
+      title: "Appliances",
       focusedIcon: "fridge-variant",
       unfocusedIcon: "fridge-variant-outline",
     },
@@ -40,8 +47,10 @@ const Footer = () => {
         return <Dashboard />;
       case "listMaker":
         return <GroceryListMaker />;
-      case "inventory":
-        return <Inventory />;
+      case "appliances":
+        return <KitchenAppliances />;
+        case "inventory":
+          return <Inventory />;
       case "recipes":
         return <RecipeRecommender />;
       default:

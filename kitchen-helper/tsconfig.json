@@ -10,7 +10,8 @@
     "expo-env.d.ts",
     "app/(loggedIn)/Dashboard.jsx",
     "components/Footer.jsx",
-    "app/(loggedIn)/Inventory.jsx",
+    "app/(loggedIn)/Inventory.tsx",
+    "app/(loggedIn)/KitchenAppliances.jsx",
     "app/(loggedIn)/GroceryListMaker.jsx",
     "app/(loggedIn)/RecipeRecommender.jsx"
   ]
