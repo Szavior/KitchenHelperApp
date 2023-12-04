@@ -7,7 +7,7 @@
 - **Grocery Organization:** Effortlessly manage your grocery list. Add, edit, and remove items to keep track of what you need to buy.
 
 - **Kitchen Utensil Management:** Catalog and categorize your kitchen tools and utensils for easy access and inventory control.
-- 
+
 - **Low-Stock Notifications:** Receive timely alerts when your essential ingredients are running low, helping you restock before you run out.
 
 - **Recipe Recommendations:** Discover recipes based on the ingredients you have in your kitchen. Say goodbye to food waste!
